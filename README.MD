@@ -72,12 +72,12 @@ The system expects input in the following JSON format:
 
 ```json
 {
-  "StudyTimeWeekly": 12,
+  "StudyTimeWeekly": 18,
   "Absences": 1,
   "Gender": 1,
-  "Ethnicity": 3,
-  "ParentalEducation": 3,
-  "Tutoring": 0,
+  "Ethnicity": 1,
+  "ParentalEducation": 1,
+  "Tutoring": 1,
   "ParentalSupport": 1,
   "Extracurricular": 1
 }
@@ -91,8 +91,11 @@ The system provides predictions in the following format:
 
 ```json
 {
-  "Predicted_GPA_bin": "Medium",
-  "Predicted_GradeClass": "B"
+  "gpa": 3.35,
+  "gpa_bin": 0,
+  "gpa_bin_label": "High",
+  "gradeClass": 1,
+  "gradeClass_label": "1"
 }
 ```
 
