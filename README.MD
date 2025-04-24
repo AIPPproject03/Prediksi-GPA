@@ -111,7 +111,10 @@ The project uses the following Python libraries:
 - `joblib`
 
 Install all dependencies using the `requirements.txt` file.
-pip install -r requirements.txt
+
+```bash
+  pip install -r requirements.txt
+```
 
 ---
 
