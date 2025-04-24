@@ -23,12 +23,12 @@ class NumpyEncoder(JSONEncoder):
 app.json_encoder = NumpyEncoder
 
 # Load model components
-model_data = joblib.load('bayesian_model.pkl')
+model_data = joblib.load('models/bayesian_model.pkl')
 CPT = model_data['CPT']
 parents = model_data['parents']
 encoders = model_data['label_encoders']
 features = model_data['features']
-mean_gpa = joblib.load('mean_gpa.pkl')
+mean_gpa = joblib.load('models/mean_gpa.pkl')
 
 # Binning setup
 study_bins = [0, 5, 10, 15, 20, float('inf')]
