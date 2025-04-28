@@ -1388,3 +1388,8 @@
 2025-04-28 10:26:31,238 - root - INFO - Predicted GradeClass: 1
 2025-04-28 10:26:31,238 - root - INFO - Prediction result: {'gpa': 3.08, 'gpa_bin': 3, 'gpa_bin_label': 'High', 'gradeClass': 1, 'gradeClass_label': '1'}
 2025-04-28 10:26:31,238 - werkzeug - INFO - 127.0.0.1 - - [28/Apr/2025 10:26:31] "POST /predict HTTP/1.1" 200 -
+2025-04-28 10:31:27,478 - werkzeug - INFO -  * Detected change in 'D:\\AIPPROJECT03\\AIPP Zone\\Python\\Prediksi GPA\\app.py', reloading
+2025-04-28 10:31:27,682 - werkzeug - INFO -  * Restarting with stat
+2025-04-28 10:31:33,678 - root - INFO - Loaded training data sample: (1000, 15)
+2025-04-28 10:31:33,700 - werkzeug - WARNING -  * Debugger is active!
+2025-04-28 10:31:33,703 - werkzeug - INFO -  * Debugger PIN: 105-280-137
