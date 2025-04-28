@@ -4,88 +4,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bayesian Network Visualization</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="./style.css">
+    <title>Learning Performance Predictor</title>
 </head>
 
 <body>
-    <header>
-        <h1>Bayesian Network Visualization</h1>
-    </header>
-    <main>
-        <section id="network-section">
-            <h2>Bayesian Network Structure</h2>
-            <div id="network"></div>
-        </section>
-        <section id="cpt-section">
-            <h2>Conditional Probability Tables (CPT)</h2>
-            <div id="cpt-container"></div>
-        </section>
-        <section id="inference-section">
-            <h2>Inference</h2>
-            <form id="inference-form">
-                <div class="form-group">
-                    <label for="studyTime">Study Time Weekly (hours):</label>
-                    <input type="number" id="studyTime" name="studyTime" placeholder="Enter study hours" required>
+    <!-- Video Background -->
+    <div class="video-background">
+        <div class="video-overlay"></div>
+        <video src="./asset/1_1.mp4" autoplay loop muted></video>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1>Bayesian Network Visualization</h1>
+        </header>
+
+        <main>
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="title-content">
+                    <div class="title-left fade-in-up">
+                        <div class="head-title">
+                            <h1>IT'S EASIER TO DETERMINE THE FUTURE</h1>
+                        </div>
+                        <div class="sub">
+                            <p>Learning Performance Prediction</p>
+                        </div>
+                    </div>
+
+                    <div class="title-right fade-in-up">
+                        <div class="head-right">
+                            <p>Bayesian Algorithm</p>
+                        </div>
+                        <div class="sub-right">
+                            <p>Bayesian Network: Analyzing Cause, Inferring Effect. See how variables influence each
+                                other in an interconnected system. All summarized visually and interactively.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="absences">Absences (days):</label>
-                    <input type="number" id="absences" name="absences" placeholder="Enter number of absences" required>
+            </section>
+
+            <!-- Visualization Frame Section -->
+            <section class="frame-section fade-in-up">
+                <div class="frame-container">
+                    <div class="frame-title">
+                        <h2>Bayesian Network Visualization</h2>
+                        <p>Explore the relationships between different variables and how they influence academic
+                            performance outcomes.</p>
+                    </div>
+
+                    <div class="frame-wrapper fade-in-up">
+                        <iframe src="bayesian.html"></iframe>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="gender">Gender:</label>
-                    <select id="gender" name="gender" required>
-                        <option value="0">Male</option>
-                        <option value="1">Female</option>
-                    </select>
+            </section>
+
+            <!-- Form Section -->
+            <section class="form-section fade-in-up" id="form-section">
+                <div class="form-title">
+                    <h2>Let's complete the following data</h2>
+                    <p>With this data, we will gain deeper insights into how far your performance has progressed,
+                        helping you identify strengths, uncover potential gaps, and take strategic steps toward
+                        improvement.</p>
                 </div>
-                <div class="form-group">
-                    <label for="ethnicity">Ethnicity:</label>
-                    <select id="ethnicity" name="ethnicity" required>
-                        <option value="0">Ethnicity 0</option>
-                        <option value="1">Ethnicity 1</option>
-                        <option value="2">Ethnicity 2</option>
-                        <option value="3">Ethnicity 3</option>
-                    </select>
+
+                <div class="form-container">
+                    <!-- Student Personal Information Card -->
+                    <div class="form-card fade-in-up">
+                        <h3 style="margin-bottom: 20px; color: #444; font-size: 18px;">Student Information</h3>
+
+                        <div class="form-group">
+                            <label for="studentName">Student Name:</label>
+                            <input type="text" id="studentName" name="studentName" placeholder="Enter full name"
+                                required>
+                            <div class="error-message" id="studentNameError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="studentAge">Age:</label>
+                            <input type="number" id="studentAge" name="studentAge" placeholder="Enter age" min="10"
+                                max="100" required>
+                            <div class="error-message" id="studentAgeError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender">Gender:</label>
+                            <select id="gender" name="gender" required>
+                                <option value="" disabled selected>Select gender</option>
+                                <option value="0">Male</option>
+                                <option value="1">Female</option>
+                            </select>
+                            <div class="error-message" id="genderError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ethnicity">Ethnicity:</label>
+                            <select id="ethnicity" name="ethnicity" required>
+                                <option value="" disabled selected>Select ethnicity</option>
+                                <option value="0">Caucasian</option>
+                                <option value="1">African American</option>
+                                <option value="2">Asian</option>
+                                <option value="3">Other</option>
+                            </select>
+                            <div class="error-message" id="ethnicityError"></div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Information Card -->
+                    <div class="form-card fade-in-up">
+                        <h3 style="margin-bottom: 20px; color: #444; font-size: 18px;">Academic Information</h3>
+
+                        <div class="form-group">
+                            <label for="studyTime">Study Time Weekly (hours):</label>
+                            <input type="number" id="studyTime" name="studyTime" placeholder="Enter hours (0-20)"
+                                min="0" max="20" required>
+                            <div class="error-message" id="studyTimeError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="absences">Absences (days):</label>
+                            <input type="number" id="absences" name="absences" placeholder="Enter number (0-30)" min="0"
+                                max="30" required>
+                            <div class="error-message" id="absencesError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tutoring">Tutoring:</label>
+                            <select id="tutoring" name="tutoring" required>
+                                <option value="" disabled selected>Select option</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                            <div class="error-message" id="tutoringError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="extracurricular">Extracurricular Activities:</label>
+                            <select id="extracurricular" name="extracurricular" required>
+                                <option value="" disabled selected>Select option</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                            <div class="error-message" id="extracurricularError"></div>
+                        </div>
+                    </div>
+
+                    <!-- Family & Support Card -->
+                    <div class="form-card fade-in-up">
+                        <h3 style="margin-bottom: 20px; color: #444; font-size: 18px;">Family & Support</h3>
+
+                        <div class="form-group">
+                            <label for="parentEducation">Parental Education:</label>
+                            <select id="parentEducation" name="parentEducation" required>
+                                <option value="" disabled selected>Select option</option>
+                                <option value="0">None</option>
+                                <option value="1">High School</option>
+                                <option value="2">Some College</option>
+                                <option value="3">Bachelor's</option>
+                                <option value="4">Higher</option>
+                            </select>
+                            <div class="error-message" id="parentEducationError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="parentalSupport">Parental Support:</label>
+                            <select id="parentalSupport" name="parentalSupport" required>
+                                <option value="" disabled selected>Select level</option>
+                                <option value="0">None</option>
+                                <option value="1">Low</option>
+                                <option value="2">Moderate</option>
+                                <option value="3">High</option>
+                                <option value="4">Very High</option>
+                            </select>
+                            <div class="error-message" id="parentalSupportError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sports">Sports Participation:</label>
+                            <select id="sports" name="sports" required>
+                                <option value="" disabled selected>Select option</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                            <div class="error-message" id="sportsError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="music">Music Participation:</label>
+                            <select id="music" name="music" required>
+                                <option value="" disabled selected>Select option</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                            <div class="error-message" id="musicError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="volunteering">Volunteering Activities:</label>
+                            <select id="volunteering" name="volunteering" required>
+                                <option value="" disabled selected>Select option</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                            <div class="error-message" id="volunteeringError"></div>
+                        </div>
+
+                        <button type="button" id="generateBtn" class="submit-btn float-animation">Predict
+                            Performance</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="parentalEducation">Parental Education:</label>
-                    <select id="parentalEducation" name="parentalEducation" required>
-                        <option value="0">No Formal Education</option>
-                        <option value="1">High School</option>
-                        <option value="2">Bachelor's Degree</option>
-                        <option value="3">Master's Degree</option>
-                        <option value="4">Doctorate</option>
-                    </select>
+
+                <div class="loading" id="loadingIndicator">
+                    <div class="loading-spinner"></div>
+                    <p>Processing your data...</p>
                 </div>
-                <div class="form-group">
-                    <label for="tutoring">Tutoring:</label>
-                    <select id="tutoring" name="tutoring" required>
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
-                    </select>
+
+                <div class="result-card" id="output-result" style="display: none;">
+                    <div class="result-title">Prediction Result</div>
+
+                    <!-- Student info will be displayed here -->
+                    <div class="student-info-box" id="studentInfoBox">
+                        <div class="student-info-title">Student Information</div>
+                        <div class="student-info-content" id="studentInfoContent"></div>
+                    </div>
+
+                    <div class="result-content" id="resultContent"></div>
                 </div>
-                <div class="form-group">
-                    <label for="parentalSupport">Parental Support:</label>
-                    <select id="parentalSupport" name="parentalSupport" required>
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
-                    </select>
+
+                <div class="debug-toggle">
+                    <a id="toggleDebug">Show Debug Info</a>
                 </div>
-                <div class="form-group">
-                    <label for="extracurricular">Extracurricular Activities:</label>
-                    <select id="extracurricular" name="extracurricular" required>
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
-                    </select>
+
+                <div class="debug-panel" id="debugPanel">
+                    <h4>Debug Information</h4>
+                    <div id="debugInfo"></div>
                 </div>
-                <button type="submit">Predict</button>
-            </form>
-            <div id="inference-result"></div>
-        </section>
-    </main>
-    <script src="script.js"></script>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="./script.js"></script>
+
+
 </body>
 
 </html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animasi Bayesian Network (Autoplay)</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8faff;
+    }
+
+    .container {
+      width: 850px;
+      height: 650px;
+      position: relative;
+      overflow: hidden;
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+    }
+
+    .title {
+      text-align: center;
+      margin: 10px 0 30px;
+      font-size: 28px;
+      font-weight: 600;
+      color: #6a89cc;
+      letter-spacing: 0.5px;
+    }
+
+    .network {
+      position: relative;
+      width: 100%;
+      height: 500px;
+    }
+
+    .node {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #2c3e50;
+      font-weight: bold;
+      background-color: #a6dcef;
+      box-shadow: 0 5px 15px rgba(102, 166, 255, 0.3);
+      transform: scale(0);
+      opacity: 0;
+      transition: transform 0.5s, opacity 0.5s, box-shadow 0.3s;
+      cursor: pointer;
+      text-align: center;
+      font-size: 10px;
+      /* Ukuran font label diperkecil */
+      padding: 3px;
+      /* Padding lebih kecil */
+      word-break: break-word;
+    }
+
+    .node.central {
+      background-color: #7bed9f;
+      width: 80px;
+      height: 80px;
+      font-size: 15px;
+      /* Ukuran font untuk node central */
+      font-weight: 700;
+    }
+
+    .node.active {
+      box-shadow: 0 0 30px rgba(102, 166, 255, 0.8);
+    }
+
+    .node.visible {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .node.fade-out {
+      transform: scale(0);
+      opacity: 0;
+    }
+
+    .edge {
+      position: absolute;
+      height: 2px;
+      background-color: #7f8c8d;
+      transform-origin: left center;
+      transform: scaleX(0);
+      opacity: 0;
+      transition: transform 1s, opacity 1s;
+      z-index: 1;
+    }
+
+    .edge:after {
+      content: '';
+      position: absolute;
+      right: -8px;
+      top: -4px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid #7f8c8d;
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+    }
+
+    .edge.visible {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+
+    .edge.fade-out {
+      transform: scaleX(0);
+      opacity: 0;
+    }
+
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background-color: #66a6ff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(102, 166, 255, 0.8);
+      z-index: 2;
+    }
+
+    .info-box {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 14px 24px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      max-width: 80%;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .info-box.visible {
+      opacity: 1;
+    }
+
+    .loading {
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      width: 60px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loading span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin: 0 3px;
+      background-color: #66a6ff;
+      border-radius: 50%;
+      animation: loading 1.5s infinite ease-in-out;
+    }
+
+    .loading span:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .loading span:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes loading {
+
+      0%,
+      100% {
+        transform: scale(0.3);
+        opacity: 0.3;
+      }
+
+      50% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .restart-label {
+      position: absolute;
+      bottom: 10px;
+      right: 90px;
+      font-size: 14px;
+      color: #666;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+
+    .restart-label.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="title">Bayesian Network Structure</h1>
+
+    <div class="network" id="network">
+      <!-- Central nodes - GPA di tengah dan Grade Class di bawah -->
+      <div class="node central" id="gpa" style="top: 250px; left: 425px;">GPA</div>
+      <div class="node central" id="gradeClass" style="top: 380px; left: 425px;">GradeClass</div>
+
+      <!-- Node sesuai dengan gambar contoh -->
+      <div class="node" id="parentalEducation" style="top: 50px; left: 80px;">Parental Education</div>
+      <div class="node" id="tutoring" style="top: 150px; left: 280px;">Tutoring</div>
+      <div class="node" id="absences" style="top: 220px; left: 120px;">Absences</div>
+      <div class="node" id="studyTimeWeekly" style="top: 370px; left: 170px;">StudyTime Weekly</div>
+      <div class="node" id="parentalSupport" style="top: 300px; left: 700px;">Parental Support</div>
+      <div class="node" id="extracurricular" style="top: 220px; left: 600px;">Extracurricular</div>
+      <div class="node" id="music" style="top: 120px; left: 550px;">Music</div>
+      <div class="node" id="volunteering" style="top: 80px; left: 650px;">Volunteering</div>
+      <div class="node" id="sports" style="top: 50px; left: 750px;">Sports</div>
+    </div>
+
+    <div class="info-box visible" id="infoBox">Bayesian Network menggambarkan hubungan probabilistik antar variabel
+    </div>
+
+    <div class="loading" id="loading">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="restart-label" id="restartLabel">Memulai ulang...</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const network = document.getElementById('network');
+      const infoBox = document.getElementById('infoBox');
+      const loading = document.getElementById('loading');
+      const restartLabel = document.getElementById('restartLabel');
+
+      // Node connections sesuai dengan gambar
+      const connections = [
+        { from: 'parentalEducation', to: 'tutoring' },
+        { from: 'tutoring', to: 'gpa' },
+        { from: 'absences', to: 'gpa' },
+        { from: 'studyTimeWeekly', to: 'gpa' },
+        { from: 'parentalSupport', to: 'gpa' },
+        { from: 'extracurricular', to: 'gpa' },
+        { from: 'sports', to: 'extracurricular' },
+        { from: 'volunteering', to: 'extracurricular' },
+        { from: 'music', to: 'extracurricular' },
+        { from: 'gpa', to: 'gradeClass' }
+      ];
+
+      // Node descriptions for info panel
+      const nodeInfo = {
+        'parentalEducation': 'Tingkat pendidikan orang tua dapat mempengaruhi pilihan tutoring',
+        'tutoring': 'Program bimbingan belajar eksternal mempengaruhi nilai akademik',
+        'gpa': 'Nilai rata-rata akademik siswa',
+        'absences': 'Jumlah ketidakhadiran siswa di kelas',
+        'parentalSupport': 'Dukungan dari orang tua dalam proses belajar',
+        'extracurricular': 'Partisipasi dalam kegiatan ekstrakurikuler',
+        'gradeClass': 'Kelas performa siswa (tinggi/sedang/rendah)',
+        'sports': 'Partisipasi dalam kegiatan olahraga',
+        'music': 'Partisipasi dalam kegiatan musik',
+        'volunteering': 'Partisipasi dalam kegiatan kerelawanan',
+        'studyTimeWeekly': 'Waktu belajar siswa per minggu'
+      };
+
+      // Create edges between nodes with better path calculation
+      function createEdges() {
+        connections.forEach(function (conn) {
+          const fromNode = document.getElementById(conn.from);
+          const toNode = document.getElementById(conn.to);
+
+          const fromRect = fromNode.getBoundingClientRect();
+          const toRect = toNode.getBoundingClientRect();
+          const networkRect = network.getBoundingClientRect();
+
+          // Calculate center points
+          const fromX = (fromRect.left + fromRect.right) / 2 - networkRect.left;
+          const fromY = (fromRect.top + fromRect.bottom) / 2 - networkRect.top;
+          const toX = (toRect.left + toRect.right) / 2 - networkRect.left;
+          const toY = (toRect.top + toRect.bottom) / 2 - networkRect.top;
+
+          // Calculate angle and length
+          const dx = toX - fromX;
+          const dy = toY - fromY;
+          const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+          const length = Math.sqrt(dx * dx + dy * dy);
+
+          // Adjust length based on node type and connection
+          let adjustedLength = length;
+          const fromNodeSize = fromNode.classList.contains('central') ? 40 : 32.5;
+          const toNodeSize = toNode.classList.contains('central') ? 40 : 32.5;
+
+          adjustedLength = length - (fromNodeSize + toNodeSize);
+
+          // Create edge element
+          const edge = document.createElement('div');
+          edge.className = 'edge';
+          edge.id = `edge-${conn.from}-${conn.to}`;
+          edge.style.width = `${adjustedLength}px`;
+          edge.style.left = `${fromX}px`;
+          edge.style.top = `${fromY}px`;
+          edge.style.transform = `rotate(${angle}deg)`;
+
+          network.appendChild(edge);
+        });
+      }
+
+      // Animation sequence
+      function startAnimation() {
+        // First create all edges
+        createEdges();
+
+        // Show nodes one by one
+        const nodes = document.querySelectorAll('.node');
+        let delay = 500;
+
+        nodes.forEach(function (node, index) {
+          setTimeout(function () {
+            node.classList.add('visible');
+            infoBox.textContent = nodeInfo[node.id];
+          }, delay);
+
+          delay += 400;
+        });
+
+        // Show edges one by one and animate particles
+        delay += 400;
+        connections.forEach(function (conn, index) {
+          setTimeout(function () {
+            const fromNode = document.getElementById(conn.from);
+            const toNode = document.getElementById(conn.to);
+            const edge = document.getElementById(`edge-${conn.from}-${conn.to}`);
+
+            fromNode.classList.add('active');
+
+            setTimeout(function () {
+              edge.classList.add('visible');
+              infoBox.textContent = `${conn.from} → ${conn.to}: ${nodeInfo[conn.from]} mempengaruhi ${nodeInfo[conn.to]}`;
+
+              // Animate particle along the edge
+              setTimeout(function () {
+                animateParticle(conn.from, conn.to);
+
+                setTimeout(function () {
+                  toNode.classList.add('active');
+
+                  // Remove active class from "from" node unless it's the final destination
+                  if (index < connections.length - 1 && conn.to !== 'gradeClass') {
+                    setTimeout(function () {
+                      fromNode.classList.remove('active');
+                    }, 800);
+                  }
+
+                }, 500);
+              }, 200);
+            }, 500);
+          }, delay);
+
+          delay += 1800;
+        });
+
+        // Start fadeout animation after everything is shown
+        setTimeout(function () {
+          infoBox.textContent = 'Model Bayesian selesai menampilkan hubungan antar variabel';
+
+          // Wait a bit and start fading out everything
+          setTimeout(startFadeOut, 3000);
+        }, delay);
+      }
+
+      // Fade out everything and restart
+      function startFadeOut() {
+        restartLabel.classList.add('visible');
+
+        // Fade out edges first
+        const edges = document.querySelectorAll('.edge');
+        edges.forEach(function (edge) {
+          edge.classList.add('fade-out');
+        });
+
+        // Then fade out nodes with slight delay
+        setTimeout(function () {
+          const nodes = document.querySelectorAll('.node');
+          nodes.forEach(function (node) {
+            node.classList.add('fade-out');
+            node.classList.remove('active', 'visible');
+          });
+        }, 500);
+
+        // Remove everything and restart after fadeout
+        setTimeout(function () {
+          // Remove all edges
+          const edges = document.querySelectorAll('.edge');
+          edges.forEach(function (edge) {
+            edge.remove();
+          });
+
+          // Remove particles
+          const particles = document.querySelectorAll('.particle');
+          particles.forEach(function (particle) {
+            particle.remove();
+          });
+
+          // Reset nodes
+          const nodes = document.querySelectorAll('.node');
+          nodes.forEach(function (node) {
+            node.classList.remove('fade-out', 'active', 'visible');
+          });
+
+          infoBox.textContent = 'Memuat ulang animasi Bayesian Network...';
+          restartLabel.classList.remove('visible');
+
+          // Small delay before restarting
+          setTimeout(startAnimation, 1500);
+        }, 1500);
+      }
+
+      // Create and animate a particle between two nodes
+      function animateParticle(fromId, toId) {
+        const fromNode = document.getElementById(fromId);
+        const toNode = document.getElementById(toId);
+        const networkRect = network.getBoundingClientRect();
+
+        const fromRect = fromNode.getBoundingClientRect();
+        const toRect = toNode.getBoundingClientRect();
+
+        // Calculate center points
+        const fromX = (fromRect.left + fromRect.right) / 2 - networkRect.left;
+        const fromY = (fromRect.top + fromRect.bottom) / 2 - networkRect.top;
+        const toX = (toRect.left + toRect.right) / 2 - networkRect.left;
+        const toY = (toRect.top + toRect.bottom) / 2 - networkRect.top;
+
+        // Create 3 particles with delay
+        for (let i = 0; i < 3; i++) {
+          setTimeout(function () {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = `${fromX - 4}px`; // Center the particle
+            particle.style.top = `${fromY - 4}px`;
+            network.appendChild(particle);
+
+            // Animate the particle
+            const startTime = Date.now();
+            const duration = 1000;
+
+            function moveParticle() {
+              const elapsed = Date.now() - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+
+              const x = fromX + (toX - fromX) * progress;
+              const y = fromY + (toY - fromY) * progress;
+
+              particle.style.left = `${x - 4}px`;
+              particle.style.top = `${y - 4}px`;
+
+              if (progress < 1) {
+                requestAnimationFrame(moveParticle);
+              } else {
+                particle.remove();
+              }
+            }
+
+            requestAnimationFrame(moveParticle);
+          }, i * 300);
+        }
+      }
+
+      // Start the animation automatically
+      setTimeout(startAnimation, 1000);
+    });
+  </script>
+</body>
+
+</html>
