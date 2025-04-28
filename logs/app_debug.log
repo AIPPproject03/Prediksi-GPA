@@ -3496,3 +3496,25 @@ ValueError: y contains previously unseen labels: 'VeryHigh'
 2025-04-28 19:35:58,813 - werkzeug - INFO - 127.0.0.1 - - [28/Apr/2025 19:35:58] "POST /recommend HTTP/1.1" 200 -
 2025-04-28 19:37:03,973 - werkzeug - INFO -  * Detected change in 'D:\\AIPPROJECT03\\AIPP Zone\\Python\\Prediksi GPA\\app.py', reloading
 2025-04-28 19:37:04,174 - werkzeug - INFO -  * Restarting with stat
+2025-04-28 20:03:54,710 - root - INFO - Loaded training data sample: (1000, 15)
+2025-04-28 20:03:54,750 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.18.175:5000
+2025-04-28 20:03:54,750 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-28 20:03:54,752 - werkzeug - INFO -  * Restarting with stat
+2025-04-28 20:04:00,483 - root - INFO - Loaded training data sample: (1000, 15)
+2025-04-28 20:04:00,507 - werkzeug - WARNING -  * Debugger is active!
+2025-04-28 20:04:00,510 - werkzeug - INFO -  * Debugger PIN: 105-280-137
+2025-04-28 20:04:00,643 - root - INFO - Received prediction request: {'StudyTimeWeekly': 15.2, 'Absences': 2, 'ParentalEducation': 0, 'Tutoring': 1, 'ParentalSupport': 0, 'Extracurricular': 0, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-04-28 20:04:00,644 - root - INFO - Processed evidence: {'StudyTimeWeekly': 15.2, 'Study_bin': 0, 'Absences': 2.0, 'Absences_bin': 3, 'ParentalEducation': 0, 'Tutoring': 1, 'ParentalSupport': 0, 'Extracurricular': 0, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-04-28 20:04:00,644 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 15.2, 'Study_bin': 0, 'Absences': 2.0, 'Absences_bin': 3, 'ParentalEducation': 0, 'Tutoring': 1, 'ParentalSupport': 0, 'Extracurricular': 0, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-04-28 20:04:00,644 - root - INFO - Looking up key in CPT: (15.2, 2.0, 0)
+2025-04-28 20:04:00,645 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-04-28 20:04:00,647 - root - INFO - Using nearest neighbor key: (np.float64(14.9), np.int64(3), np.int64(0)) with distance: 1.0899999999999994
+2025-04-28 20:04:00,647 - root - INFO - Predicted GPA: 2.78
+2025-04-28 20:04:00,647 - root - INFO - Predicting GradeClass with GPA: 2.78
+2025-04-28 20:04:00,648 - root - INFO - Using closest GPA key: (np.float64(2.78),) with distance: 0.0
+2025-04-28 20:04:00,648 - root - INFO - Predicted GradeClass: 2
+2025-04-28 20:04:00,649 - root - INFO - Prediction result: {'gpa': 2.78, 'gpa_bin': 2, 'gpa_bin_label': 'Medium', 'gradeClass': 2, 'gradeClass_label': '2'}
+2025-04-28 20:04:00,650 - werkzeug - INFO - 127.0.0.1 - - [28/Apr/2025 20:04:00] "POST /predict HTTP/1.1" 200 -
