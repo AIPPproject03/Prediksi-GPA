@@ -5,6 +5,7 @@ import pandas as pd
 import logging
 from flask_cors import CORS
 import os
+from copy import deepcopy
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Enable CORS for all routes
@@ -271,6 +272,171 @@ def predict_gradeclass(evidence):
     else:
         return 4  # F/Poor
 
+def generate_recommendations(student_data, gpa_score):
+    """
+    Menganalisis kekurangan siswa dan memberikan rekomendasi untuk meningkatkan performa
+    """
+    # Define GPA category
+    if gpa_score < 1.0:
+        category = "VeryLow"
+    elif gpa_score < 2.0:
+        category = "Low"
+    elif gpa_score < 3.0:
+        category = "Medium"
+    elif gpa_score < 3.5:
+        category = "High"
+    else:
+        category = "VeryHigh"
+    
+    recommendations = []
+    
+    # 1. Study Time
+    study_time = student_data.get('StudyTimeWeekly', 0)
+    if study_time < 5:
+        impact = test_study_improvement(student_data, 10)
+        recommendations.append({
+            'factor': 'Waktu Belajar',
+            'issue': f"Waktu belajar sangat rendah ({study_time} jam/minggu)",
+            'recommendation': f"Tingkatkan waktu belajar menjadi minimal 10 jam per minggu",
+            'impact': impact,
+            'priority': 'High' if category in ["VeryLow", "Low"] else 'Medium'
+        })
+    elif study_time < 10:
+        impact = test_study_improvement(student_data, 15)
+        recommendations.append({
+            'factor': 'Waktu Belajar',
+            'issue': f"Waktu belajar kurang ({study_time} jam/minggu)",
+            'recommendation': f"Tingkatkan waktu belajar menjadi 15 jam per minggu",
+            'impact': impact,
+            'priority': 'Medium'
+        })
+    
+    # 2. Absences
+    absences = student_data.get('Absences', 0)
+    if absences > 15:
+        impact = test_absence_reduction(student_data, 5)
+        recommendations.append({
+            'factor': 'Kehadiran',
+            'issue': f"Ketidakhadiran sangat tinggi ({absences} absen)",
+            'recommendation': f"Kurangi ketidakhadiran menjadi maksimal 5 kali",
+            'impact': impact,
+            'priority': 'High'
+        })
+    elif absences > 10:
+        impact = test_absence_reduction(student_data, 5)
+        recommendations.append({
+            'factor': 'Kehadiran',
+            'issue': f"Ketidakhadiran tinggi ({absences} absen)",
+            'recommendation': f"Kurangi ketidakhadiran menjadi maksimal 5 kali",
+            'impact': impact,
+            'priority': 'Medium'
+        })
+    elif absences > 5:
+        impact = test_absence_reduction(student_data, 3)
+        recommendations.append({
+            'factor': 'Kehadiran',
+            'issue': f"Ketidakhadiran cukup tinggi ({absences} absen)",
+            'recommendation': f"Kurangi ketidakhadiran menjadi maksimal 3 kali",
+            'impact': impact,
+            'priority': 'Low'
+        })
+    
+    # 3. Tutoring
+    tutoring = student_data.get('Tutoring', 0)
+    if tutoring == 0:
+        impact = test_tutoring_impact(student_data)
+        recommendations.append({
+            'factor': 'Bimbingan Belajar',
+            'issue': "Tidak mengikuti bimbingan belajar",
+            'recommendation': "Ikuti program bimbingan belajar untuk membantu pemahaman materi",
+            'impact': impact,
+            'priority': 'High' if category in ["VeryLow", "Low"] else 'Medium'
+        })
+    
+    # 4. Parental Support
+    parental_support = student_data.get('ParentalSupport', 0)
+    if parental_support == 0:
+        impact = test_parental_support_impact(student_data)
+        recommendations.append({
+            'factor': 'Dukungan Orang Tua',
+            'issue': "Kurangnya dukungan orang tua dalam pendidikan",
+            'recommendation': "Tingkatkan komunikasi dengan orang tua tentang pendidikan",
+            'impact': impact,
+            'priority': 'Medium'
+        })
+    
+    # 5. Extracurricular Activities
+    extracurricular = student_data.get('Extracurricular', 0)
+    if extracurricular == 0:
+        impact = test_extracurricular_impact(student_data)
+        recommendations.append({
+            'factor': 'Kegiatan Ekstrakurikuler',
+            'issue': "Tidak aktif dalam kegiatan ekstrakurikuler",
+            'recommendation': "Ikuti setidaknya satu kegiatan ekstrakurikuler untuk mengembangkan soft skills",
+            'impact': impact,
+            'priority': 'Low'
+        })
+    
+    # Sort recommendations by impact and priority
+    for rec in recommendations:
+        # Compute weighted score based on impact and priority
+        priority_weight = {'High': 3, 'Medium': 2, 'Low': 1}
+        rec['score'] = rec['impact'] * priority_weight.get(rec['priority'], 1)
+    
+    recommendations.sort(key=lambda x: x['score'], reverse=True)
+    
+    return recommendations
+
+def test_study_improvement(student_data, new_study_time):
+    """Test the impact of improving study time"""
+    modified_student = deepcopy(student_data)
+    current_gpa = predict_gpa(student_data)
+    
+    modified_student['StudyTimeWeekly'] = new_study_time
+    new_gpa = predict_gpa(modified_student)
+    
+    return new_gpa - current_gpa
+
+def test_absence_reduction(student_data, new_absences):
+    """Test the impact of reducing absences"""
+    modified_student = deepcopy(student_data)
+    current_gpa = predict_gpa(student_data)
+    
+    modified_student['Absences'] = new_absences
+    new_gpa = predict_gpa(modified_student)
+    
+    return new_gpa - current_gpa
+
+def test_tutoring_impact(student_data):
+    """Test the impact of getting tutoring"""
+    modified_student = deepcopy(student_data)
+    current_gpa = predict_gpa(student_data)
+    
+    modified_student['Tutoring'] = 1
+    new_gpa = predict_gpa(modified_student)
+    
+    return new_gpa - current_gpa
+
+def test_parental_support_impact(student_data):
+    """Test the impact of increasing parental support"""
+    modified_student = deepcopy(student_data)
+    current_gpa = predict_gpa(student_data)
+    
+    modified_student['ParentalSupport'] = 1
+    new_gpa = predict_gpa(modified_student)
+    
+    return new_gpa - current_gpa
+
+def test_extracurricular_impact(student_data):
+    """Test the impact of joining extracurricular activities"""
+    modified_student = deepcopy(student_data)
+    current_gpa = predict_gpa(student_data)
+    
+    modified_student['Extracurricular'] = 1
+    new_gpa = predict_gpa(modified_student)
+    
+    return new_gpa - current_gpa
+
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
@@ -346,6 +512,61 @@ def predict():
         logging.error(f"Error in prediction: {str(e)}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
+@app.route('/recommend', methods=['POST'])
+def recommend():
+    try:
+        # Get data from JSON request
+        data = request.json
+        logging.info(f"Received recommendation request: {data}")
+        
+        # Validate input
+        required_fields = [
+            'StudyTimeWeekly', 'Absences', 'ParentalEducation',
+            'Tutoring', 'ParentalSupport', 'Extracurricular', 'Sports', 'Music', 'Volunteering'
+        ]
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+        
+        # Process input data
+        evidence = process_input(data)
+        logging.info(f"Processed evidence: {evidence}")
+        
+        # Predict GPA
+        gpa_value = predict_gpa(evidence)
+        evidence['GPA'] = gpa_value
+        
+        # Generate recommendations
+        recommendations = generate_recommendations(evidence, gpa_value)
+        
+        # Define GPA category for display
+        if 0 <= gpa_value < 1.0:
+            gpa_bin_label = "VeryLow"
+        elif 1.0 <= gpa_value < 2.0:
+            gpa_bin_label = "Low"
+        elif 2.0 <= gpa_value < 3.0:
+            gpa_bin_label = "Medium"
+        elif 3.0 <= gpa_value < 3.5:
+            gpa_bin_label = "High"
+        else:
+            gpa_bin_label = "VeryHigh"
+        
+        # Prepare result (hapus field improvement_chart)
+        result = {
+            'gpa': round(float(gpa_value), 2),
+            'gpa_category': gpa_bin_label,
+            'recommendations': recommendations,
+            # 'improvement_chart': chart_image,  # Hapus baris ini
+            'total_potential_improvement': sum(rec['impact'] for rec in recommendations),
+            'potential_gpa': round(min(4.0, gpa_value + sum(rec['impact'] for rec in recommendations)), 2)
+        }
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        logging.error(f"Error generating recommendations: {str(e)}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
 # Add a health check endpoint
 @app.route('/health', methods=['GET'])
 def health_check():
@@ -362,8 +583,8 @@ def model_info():
             "model_type": "Bayesian Network",
             "parents_structure": {k: v for k, v in parents.items()},
             "evaluation_metrics": {
-                "GPA_MAE": float(joblib.load('models/evaluation_metrics_new_structure.pkl').get('MAE_GPA', "N/A")),
-                "GradeClass_Accuracy": float(joblib.load('models/evaluation_metrics_new_structure.pkl').get('Accuracy_GradeClass', "N/A")),
+                "GPA_MAE": float(joblib.load('models/evaluation_metrics.pkl').get('MAE_GPA', "N/A")),
+                "GradeClass_Accuracy": float(joblib.load('models/evaluation_metrics.pkl').get('Accuracy_GradeClass', "N/A")),
             }
         }
         return jsonify(info)
