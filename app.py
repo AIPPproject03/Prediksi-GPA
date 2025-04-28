@@ -1,14 +1,26 @@
 from flask import Flask, request, jsonify
 import joblib
 import numpy as np
+import pandas as pd
 import logging
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Enable CORS for all routes
 
-# Logging
+# Logging setup
 logging.basicConfig(level=logging.INFO)
+
+# Set up detailed logging to file for debugging
+if not os.path.exists('logs'):
+    os.makedirs('logs')
+
+file_handler = logging.FileHandler('logs/app_debug.log')
+file_handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter)
+logging.getLogger().addHandler(file_handler)
 
 # Load model components
 model_data = joblib.load('models/bayesian_model.pkl')
@@ -16,9 +28,51 @@ CPT = model_data['CPT']
 parents = model_data['parents']
 encoders = model_data['label_encoders']
 features = model_data['features']
-mean_gpa = joblib.load('models/mean_gpa.pkl')
+simplified_predictors = model_data.get('simplified_predictors', {})
 
-# Binning setup
+# Load GPA quantiles instead of mean_gpa
+gpa_quantiles = joblib.load('models/gpa_quantiles.pkl')
+
+# Load sample of training data for fallback mechanisms
+try:
+    train_df = pd.read_csv('data/Cleaned_Student_performance_data.csv')
+    train_df = train_df.sample(min(1000, len(train_df)))  # Use a subset for efficiency
+    logging.info(f"Loaded training data sample: {train_df.shape}")
+    
+    # Apply same preprocessing as in training
+    gpa_bins   = [0, 1.0, 2.0, 3.0, 4.0]
+    gpa_labels = ['VeryLow', 'Low', 'Medium', 'High']
+    train_df['GPA_bin'] = pd.cut(train_df['GPA'], bins=gpa_bins, labels=gpa_labels, include_lowest=True)
+    
+    study_bins   = [0, 5, 10, 15, 20, float('inf')]
+    study_labels = ['VeryLow', 'Low', 'Medium', 'High', 'VeryHigh']
+    train_df['Study_bin'] = pd.cut(train_df['StudyTimeWeekly'], bins=study_bins, labels=study_labels, include_lowest=True)
+    
+    abs_bins   = [0, 5, 10, 15, 20, float('inf')]
+    abs_labels = ['None', 'Few', 'Moderate', 'High', 'VeryHigh']
+    train_df['Absences_bin'] = pd.cut(train_df['Absences'], bins=abs_bins, labels=abs_labels, include_lowest=True)
+    
+    # Encode categorical variables using the same encoders from the model
+    for col in encoders:
+        if col in train_df.columns and col in encoders:
+            try:
+                train_df[col] = encoders[col].transform(train_df[col])
+            except:
+                logging.warning(f"Could not transform column {col}")
+    
+except Exception as e:
+    logging.warning(f"Could not load training data: {e}")
+    # Create a minimal dataframe with default values if loading fails
+    train_df = pd.DataFrame({
+        'StudyTimeWeekly': [10.0],
+        'Absences': [5.0],
+        'ParentalSupport': [2],
+        'GPA': [2.5]
+    })
+
+# Binning setup for continuous features
+gpa_bins = [0, 1.0, 2.0, 3.0, 4.0]
+gpa_labels = ['VeryLow', 'Low', 'Medium', 'High']
 study_bins = [0, 5, 10, 15, 20, float('inf')]
 study_labels = ['VeryLow', 'Low', 'Medium', 'High', 'VeryHigh']
 abs_bins = [0, 5, 10, 15, 20, float('inf')]
@@ -35,15 +89,25 @@ def bin_value(x, bins, labels):
 def process_input(data):
     evidence = {}
     
-    # Discretize StudyTimeWeekly
-    study_hours = float(data.get('StudyTimeWeekly', 0))
-    study_bin = bin_value(study_hours, study_bins, study_labels)
-    evidence['Study_bin'] = int(encoders['Study_bin'].transform([study_bin])[0])
+    # Get StudyTimeWeekly as direct value
+    if 'StudyTimeWeekly' in data:
+        evidence['StudyTimeWeekly'] = float(data.get('StudyTimeWeekly', 0))
+        
+        # Also create Study_bin for nodes that might use it
+        study_hours = evidence['StudyTimeWeekly']
+        study_bin = bin_value(study_hours, study_bins, study_labels)
+        if 'Study_bin' in encoders:
+            evidence['Study_bin'] = int(encoders['Study_bin'].transform([study_bin])[0])
     
-    # Discretize Absences
-    absences = float(data.get('Absences', 0))
-    abs_bin = bin_value(absences, abs_bins, abs_labels)
-    evidence['Absences_bin'] = int(encoders['Absences_bin'].transform([abs_bin])[0])
+    # Get Absences as direct value
+    if 'Absences' in data:
+        evidence['Absences'] = float(data.get('Absences', 0))
+        
+        # Also create Absences_bin for nodes that might use it
+        absences = evidence['Absences']
+        abs_bin = bin_value(absences, abs_bins, abs_labels)
+        if 'Absences_bin' in encoders:
+            evidence['Absences_bin'] = int(encoders['Absences_bin'].transform([abs_bin])[0])
     
     # Direct categorical features
     for feature in ['Gender', 'Ethnicity', 'ParentalEducation', 'Tutoring', 
@@ -53,195 +117,221 @@ def process_input(data):
     
     return evidence
 
-# Helper: Better Bayesian node prediction
-def predict_node(node, evidence):
-    node_parents = parents.get(node, [])
-    if not node_parents:
-        return int(max(CPT[node], key=CPT[node].get))
+# Helper: Predict GPA using the improved approach
+def predict_gpa(evidence):
+    # Get the relevant parent values for GPA based on the reduced parent set from training
+    important_features = ['StudyTimeWeekly', 'Absences', 'ParentalSupport']
+    parent_values = []
     
-    key = tuple(evidence.get(p, 0) for p in node_parents)  # Use 0 as default
+    logging.info(f"Evidence for GPA prediction: {evidence}")
     
-    # Try with the full parent set
-    if key in CPT[node]:
-        probs = CPT[node][key]
-        return max(probs, key=probs.get)
+    # Get values for each parent, with proper type handling
+    for p in important_features:
+        if p in evidence:
+            # Make sure we're using the correct type
+            if isinstance(evidence[p], (int, float)):
+                parent_values.append(evidence[p])
+            else:
+                parent_values.append(float(evidence[p]))
+        else:
+            # Default to a common value if missing
+            logging.warning(f"Missing parent {p} in evidence, using default")
+            if p in ['StudyTimeWeekly', 'Absences']:
+                parent_values.append(float(train_df[p].median()))
+            else:
+                parent_values.append(int(train_df[p].mode()[0]))
     
-    # If full key not found, use simplified predictors
-    simplified_predictors = model_data.get('simplified_predictors', {})
-    predictions = []
+    key = tuple(parent_values)
+    logging.info(f"Looking up key in CPT: {key}")
     
-    # Get predictions from each single-parent model
-    for parent in node_parents:
-        if parent in evidence and (node, parent) in simplified_predictors:
-            parent_value = evidence[parent]
-            if parent_value in simplified_predictors[(node, parent)]:
-                probs = simplified_predictors[(node, parent)][parent_value]
-                if probs:
-                    predictions.append(max(probs, key=probs.get))
+    # Try direct CPT lookup
+    if 'GPA' in CPT and key in CPT['GPA']:
+        probs = CPT['GPA'][key]
+        logging.info(f"Found direct match in CPT with probabilities: {probs}")
+        predicted = max(probs, key=probs.get)
+        return float(predicted)
     
-    # If we have at least one prediction from simplified models, use the most common
-    if predictions:
-        from collections import Counter
-        most_common = Counter(predictions).most_common(1)[0][0]
-        logging.info(f"Using simplified predictor for {node}, predicted {most_common}")
-        return most_common
+    logging.info("No direct match in CPT, trying nearest neighbor lookup...")
     
-    # Ultimate fallback: prior distribution
-    logging.warning(f"No prediction found for {node}, using prior probabilities")
-    
-    # Use real distribution from training data
-    if node == 'GPA_bin':
-        # For GPA, distribute across different values based on inputs
-        study_value = evidence.get('Study_bin', 0)
-        absences_value = evidence.get('Absences_bin', 0)
+    # If not found, try to find closest match (nearest neighbor approach)
+    if 'GPA' in CPT and len(CPT['GPA']) > 0:
+        min_distance = float('inf')
+        best_key = None
         
-        # Better study time + lower absences = higher GPA
-        if study_value > 2 and absences_value < 2:
-            return 3  # High
-        elif study_value > 1:
-            return 2  # Medium
-        elif absences_value > 2:
-            return 0  # Very Low
-        else:
-            return 1  # Low
-    
-    elif node == 'GradeClass':
-        # For grades, use the GPA bin to inform the prediction
-        gpa_bin = evidence.get('GPA_bin', 2)
-        
-        if gpa_bin == 3:  # High GPA
-            return 0  # Highest grade
-        elif gpa_bin == 2:  # Medium GPA
-            return 1
-        elif gpa_bin == 1:  # Low GPA
-            return 2
-        else:
-            return 3  # Lowest grade
-    
-    # Default fallback
-    prior = {}
-    for table in CPT[node].values():
-        for c, p in table.items():
-            prior[c] = prior.get(c, 0) + p
-    
-    if prior:
-        return max(prior, key=prior.get)
-    return 0  # Ultimate fallback
-
-def predict_gpa_bin(row, model_data):
-    """
-    Improved prediction function for GPA_bin with better fallback mechanisms
-    """
-    node = 'GPA_bin'
-    pars = model_data['parents'][node]
-    cpt = model_data['CPT'][node]
-    fallbacks = model_data.get('fallback_CPT', {}).get(node, {})
-    
-    # Try with full parent set
-    try:
-        key = tuple(row[p] for p in pars)
-        if key in cpt:
-            probs = cpt[key]
-            return max(probs, key=probs.get)
-        else:
-            logging.warning(f"Key {key} not found for node {node}. Using fallbacks.")
-    except Exception as e:
-        logging.warning(f"Error with full parent set for {node}: {str(e)}")
-    
-    # Try with fallback mechanisms (subsets of parents)
-    if fallbacks:
-        for subset_pars, table in fallbacks.items():
-            try:
-                key = tuple(row[p] for p in subset_pars)
-                if key in table:
-                    logging.info(f"Using fallback with parents {subset_pars} for {node}")
-                    probs = table[key]
-                    return max(probs, key=probs.get)
-            except Exception as e:
+        for existing_key in CPT['GPA'].keys():
+            if len(existing_key) != len(key):
                 continue
+                
+            # Calculate Euclidean distance between existing key and our key
+            distance = sum((float(a)-float(b))**2 for a, b in zip(existing_key, key))
+            
+            if distance < min_distance:
+                min_distance = distance
+                best_key = existing_key
+        
+        if best_key is not None and min_distance < 100:  # Threshold to avoid very distant matches
+            logging.info(f"Using nearest neighbor key: {best_key} with distance: {min_distance}")
+            probs = CPT['GPA'][best_key]
+            predicted = max(probs, key=probs.get)
+            return float(predicted)
     
-    # Final fallback: Use marginal distribution from CPT
-    logging.warning(f"Using marginal probabilities for {node}.")
-    if isinstance(cpt, dict) and len(cpt) > 0:
-        # If there's at least one entry in the CPT
-        first_key = next(iter(cpt))
-        probs = cpt[first_key]
-        return max(probs, key=probs.get)
-    else:
-        # Ultimate fallback
-        return 2  # Medium GPA bin (most common)
+    # If still no match, try one feature at a time
+    logging.info("Trying single-feature predictors...")
+    
+    for i, p in enumerate(important_features):
+        predictor_key = ('GPA', p)
+        if predictor_key in simplified_predictors:
+            p_value = parent_values[i]
+            # Find closest value in simplified predictors
+            closest_value = None
+            min_diff = float('inf')
+            
+            for existing_value in simplified_predictors[predictor_key].keys():
+                try:
+                    diff = abs(float(existing_value) - float(p_value))
+                    if diff < min_diff:
+                        min_diff = diff
+                        closest_value = existing_value
+                except (ValueError, TypeError):
+                    continue
+            
+            if closest_value is not None and closest_value in simplified_predictors[predictor_key]:
+                simple_probs = simplified_predictors[predictor_key][closest_value]
+                if simple_probs:
+                    logging.info(f"Using simplified predictor for {p} with value {closest_value}")
+                    predicted = max(simple_probs, key=simple_probs.get)
+                    return float(predicted)
+    
+    # Try looking at the training data distribution
+    logging.info("Using training data distribution for prediction")
+    
+    # Predict based on StudyTimeWeekly (strongest predictor)
+    if 'StudyTimeWeekly' in evidence:
+        study_time = evidence['StudyTimeWeekly']
+        if study_time >= 15:  # High study time
+            return 3.5  # Good GPA
+        elif study_time >= 10:  # Medium study time
+            return 3.0  # Average to good GPA
+        elif study_time >= 5:   # Low study time
+            return 2.5  # Average GPA
+        else:  # Very low study time
+            return 2.0  # Below average GPA
+    
+    # Final fallback: use the mean GPA
+    logging.warning("All prediction methods failed, using mean GPA")
+    return float(train_df['GPA'].mean())
 
-def predict_gradeclass(row, gpa_bin, model_data):
-    """
-    Improved prediction function for GradeClass with better fallback mechanisms
-    """
-    node = 'GradeClass'
-    cpt = model_data['CPT'][node]
+# Helper: Predict GradeClass using the improved approach
+def predict_gradeclass(evidence):
+    # For GradeClass, parent is GPA
+    if 'GPA' not in evidence:
+        # If GPA is not available, predict it first
+        gpa_value = predict_gpa(evidence)
+        evidence['GPA'] = gpa_value
+    else:
+        gpa_value = float(evidence['GPA'])
     
-    # Using GPA_bin as the only predictor
-    key = (gpa_bin,)
+    logging.info(f"Predicting GradeClass with GPA: {gpa_value}")
     
-    try:
-        if key in cpt:
-            probs = cpt[key]
-            return max(probs, key=probs.get)
-        else:
-            logging.warning(f"Key {key} not found for node {node}. Using marginal probabilities.")
-    except Exception as e:
-        logging.warning(f"Error predicting {node}: {str(e)}")
+    # Try to find closest GPA value in CPT
+    if 'GradeClass' in CPT:
+        # Find closest GPA key
+        closest_gpa = None
+        min_distance = float('inf')
+        
+        for key_tuple in CPT['GradeClass'].keys():
+            if not isinstance(key_tuple, tuple) or len(key_tuple) != 1:
+                continue
+            
+            try:
+                key_gpa = float(key_tuple[0])
+                distance = abs(key_gpa - gpa_value)
+                
+                if distance < min_distance:
+                    min_distance = distance
+                    closest_gpa = key_tuple
+            except (ValueError, TypeError):
+                continue
+        
+        if closest_gpa is not None and min_distance < 0.5:  # Threshold for GPA distance
+            logging.info(f"Using closest GPA key: {closest_gpa} with distance: {min_distance}")
+            probs = CPT['GradeClass'][closest_gpa]
+            return int(max(probs, key=probs.get))
     
-    # Fallback: Based on GPA_bin rules
-    if gpa_bin == 3:  # High GPA
-        return 0  # A
-    elif gpa_bin == 2:  # Medium GPA
-        return 1  # B
-    elif gpa_bin == 1:  # Low GPA
-        return 2  # C
-    else:  # VeryLow GPA
-        return 3  # D
+    # If no direct mapping, use a simple rule-based approach as fallback
+    logging.info("Using rule-based GradeClass prediction")
+    if gpa_value >= 3.5:
+        return 0  # A/Excellent
+    elif gpa_value >= 3.0:
+        return 1  # B/Good
+    elif gpa_value >= 2.0:
+        return 2  # C/Average
+    elif gpa_value >= 1.0:
+        return 3  # D/Below Average
+    else:
+        return 4  # F/Poor
 
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
+        # Get data from JSON request
         data = request.json
         logging.info(f"Received prediction request: {data}")
+        
+        # Validate input
+        required_fields = [
+            'StudyTimeWeekly', 'Absences', 'ParentalEducation',
+            'Tutoring', 'ParentalSupport', 'Extracurricular', 'Sports', 'Music', 'Volunteering'
+        ]
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
         
         # Process input data
         evidence = process_input(data)
         logging.info(f"Processed evidence: {evidence}")
         
-        # Predict GPA bin 
-        gpa_bin = predict_node('GPA_bin', evidence)
-        evidence['GPA_bin'] = gpa_bin
-        logging.info(f"Predicted GPA bin: {gpa_bin}")
+        # Predict GPA directly
+        gpa_value = predict_gpa(evidence)
+        evidence['GPA'] = gpa_value
+        logging.info(f"Predicted GPA: {gpa_value}")
         
-        # Predict GradeClass
-        grade_class = predict_node('GradeClass', evidence)
+        # Predict GradeClass based on GPA
+        grade_class = predict_gradeclass(evidence)
         logging.info(f"Predicted GradeClass: {grade_class}")
         
-        # Verify encoders exist before using them
-        if 'GPA_bin' not in encoders:
-            logging.error("GPA_bin encoder missing!")
-            gpa_label = "Medium"  # Default if encoder is missing
-        else:
-            gpa_label = encoders['GPA_bin'].inverse_transform([gpa_bin])[0]
-            
-        if 'GradeClass' not in encoders:
-            logging.error("GradeClass encoder missing!")
-            grade_label = str(grade_class)  # Default if encoder is missing
-        else:
+        # Map GradeClass to label
+        grade_label = "Unknown"
+        try:
             grade_label = encoders['GradeClass'].inverse_transform([grade_class])[0]
-        
-        gpa_value = float(mean_gpa.get(gpa_bin, np.mean(list(mean_gpa.values()))))
-        
-        # Add randomization to prevent exact same results
-        gpa_jitter = np.random.uniform(-0.05, 0.05)  # Small random adjustment
-        gpa_value = max(0, min(4.0, gpa_value + gpa_jitter))  # Keep within 0-4 range
-        
+        except (ValueError, KeyError, IndexError) as e:
+            logging.error(f"Error mapping GradeClass: {str(e)}")
+            # Use a simple mapping as fallback
+            grade_labels = ["Excellent", "Good", "Average", "Below Average", "Poor"]
+            if 0 <= grade_class < len(grade_labels):
+                grade_label = grade_labels[grade_class]
+
+        # Discretize GPA for display purposes
+        gpa_bin = None
+        gpa_bin_label = "Unknown"
+        if 0 <= gpa_value < 1.0:
+            gpa_bin = 0
+            gpa_bin_label = "VeryLow"
+        elif 1.0 <= gpa_value < 2.0:
+            gpa_bin = 1
+            gpa_bin_label = "Low"
+        elif 2.0 <= gpa_value < 3.0:
+            gpa_bin = 2
+            gpa_bin_label = "Medium"
+        elif 3.0 <= gpa_value <= 4.0:
+            gpa_bin = 3
+            gpa_bin_label = "High"
+
+        # Prepare result
         result = {
-            'gpa': round(gpa_value, 2),
-            'gpa_bin': int(gpa_bin),
-            'gpa_bin_label': gpa_label,
+            'gpa': round(float(gpa_value), 2),
+            'gpa_bin': int(gpa_bin) if gpa_bin is not None else None,
+            'gpa_bin_label': gpa_bin_label,
             'gradeClass': int(grade_class),
             'gradeClass_label': str(grade_label)
         }
@@ -253,7 +343,32 @@ def predict():
         logging.error(f"KeyError: {str(e)}")
         return jsonify({"error": f"Missing key in model: {str(e)}"}), 500
     except Exception as e:
-        logging.error(f"Error in prediction: {str(e)}")
+        logging.error(f"Error in prediction: {str(e)}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+# Add a health check endpoint
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({"status": "ok", "message": "API is running"})
+
+# Add a model info endpoint
+@app.route('/model-info', methods=['GET'])
+def model_info():
+    try:
+        # Get basic model information to share
+        info = {
+            "features": features,
+            "target": "GPA and GradeClass",
+            "model_type": "Bayesian Network",
+            "parents_structure": {k: v for k, v in parents.items()},
+            "evaluation_metrics": {
+                "GPA_MAE": float(joblib.load('models/evaluation_metrics_new_structure.pkl').get('MAE_GPA', "N/A")),
+                "GradeClass_Accuracy": float(joblib.load('models/evaluation_metrics_new_structure.pkl').get('Accuracy_GradeClass', "N/A")),
+            }
+        }
+        return jsonify(info)
+    except Exception as e:
+        logging.error(f"Error getting model info: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
