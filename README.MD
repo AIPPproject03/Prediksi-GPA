@@ -50,8 +50,7 @@ This structure was defined based on **correlation analysis** (see Figure 1), dom
 │   └── gpa_quantiles.pkl
 ├── data/
 │   └── Cleaned_Student_performance_data.csv
-├── static/                     # Web assets
-├── templates/                  # HTML templates
+├── UI/                         # Web assets
 ├── requirements.txt
 └── README.md
 ```
