@@ -1,118 +1,113 @@
-# Student Performance Prediction System
+# 🎓 Student Performance Prediction System
 
-This project implements a Bayesian Network model to predict student academic performance metrics such as GPA and grade classification. It analyzes various factors including study habits, attendance, and support systems to provide actionable insights for improving academic outcomes.
+Bayesian Network-Based Intelligence for Academic Performance Insight
 
-## About the Program
+---
 
-### Model Overview
+## 📌 Project Overview
 
-The system uses a Bayesian Network to model the probabilistic relationships between different factors that influence student performance. The model:
+This project implements a **Bayesian Network model** to predict student academic performance—specifically GPA and grade classification—by analyzing various factors such as study habits, attendance, and support systems. The system delivers actionable insights and personalized recommendations to improve academic outcomes.
 
-- Predicts GPA (0.0-4.0 scale) and grade classifications
-- Identifies key factors influencing academic performance
-- Provides personalized recommendations for improvement
-- Handles missing data through probabilistic inference
+![Correlation Matrix](correlation.png)
+_Figure 1: Correlation Matrix between key academic and behavioral factors_
 
-### Key Features
+---
 
-- **Bayesian Network Model**: Captures complex dependencies between educational factors and performance metrics
-- **Data Preprocessing**: Handles missing values, encodes categorical variables, and normalizes numerical features
-- **Performance Prediction**: Achieves a Mean Absolute Error (MAE) of approximately 0.27 for GPA predictions
-- **Recommendation Engine**: Generates personalized improvement suggestions based on model insights
-- **Intervention Analysis**: Quantifies the potential impact of specific actions (e.g., increasing study time)
-- **Web Interface**: Provides an intuitive UI for inputting student data and viewing predictions
-- **Cross-Validation**: Ensures model reliability with k-fold cross-validation (k=5)
-- **Model Comparison**: Benchmarks against Random Forest and Linear Regression approaches
+## 🔍 About the Program
 
-### Model Structure
+### 🧠 Model Architecture
 
-The Bayesian Network models relationships between:
+The Bayesian Network models probabilistic dependencies among:
 
-- Independent variables (ParentalEducation, Sports, Music, Volunteering)
-- Intermediate variables (Extracurricular, Tutoring)
-- Direct influences on GPA (ParentalSupport, Absences, StudyTimeWeekly, Tutoring, Extracurricular)
-- Academic outcome (GPA → GradeClass)
+- **Independent Factors**: Gender, Ethnicity, Parental Education, Sports, Music, Volunteering
+- **Intermediary Nodes**: Tutoring, Parental Support, Extracurricular
+- **Direct Academic Influences**: Study Time, Absences
+- **Target Outcomes**: GPA → GradeClass (A, B, C, D, F)
 
-## Installation Guide
+This structure was defined based on **correlation analysis** (see Figure 1), domain knowledge, and data interpretability.
 
-### Prerequisites
+### ✅ Key Features
+
+- 🔄 **Bayesian Network** for interpretable probabilistic reasoning
+- 📊 **Correlation-Driven Modeling** based on strong predictors (e.g., Absences ↔ GPA = -0.92)
+- 🤖 **Prediction Engine** for GPA and letter-grade classification
+- 📈 **Recommendation System** for personalized academic improvement
+- 💡 **Intervention Impact** estimation on predicted GPA
+- 🌐 **Web Interface** built with Flask
+- 🔬 **Model Evaluation** using cross-validation and benchmarking
+
+---
+
+## 🏗️ System Structure
+
+```plaintext
+📁 student-performance-predict/
+│
+├── app.py                      # Flask Web Server
+├── models/
+│   ├── bayesian_model.pkl
+│   ├── evaluation_metrics.pkl
+│   └── gpa_quantiles.pkl
+├── data/
+│   └── Cleaned_Student_performance_data.csv
+├── static/                     # Web assets
+├── templates/                  # HTML templates
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## 🚀 Getting Started
+
+### 📦 Requirements
 
 - Python 3.7+
 - Flask
-- Modern web browser
+- pip
 
-### Step 1: Clone the Repository
+### 🧪 Installation
 
 ```bash
 git clone <repository-url>
-cd <repository-folder>
-```
-
-### Step 2: Install Dependencies
-
-Install all required Python packages:
-
-```bash
+cd student-performance-predict
 pip install -r requirements.txt
 ```
 
-### Step 3: Verify Data Files
-
-Ensure the following files exist in your project structure:
-
-- `data/Cleaned_Student_performance_data.csv`
-- `models/bayesian_model.pkl`
-- `models/evaluation_metrics.pkl`
-- `models/gpa_quantiles.pkl`
-
-### Step 4: Launch the Application
-
-Start the Flask server:
+### 🖥️ Running the App
 
 ```bash
 python app.py
 ```
 
-The server will start on `http://127.0.0.1:5000` by default.
+Visit the web interface at: [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
-## Usage Guide
+---
 
-### Making Predictions
+## 🧪 Usage Guide
 
-1. Open the web interface by navigating to `http://127.0.0.1:5000` in your browser
-2. Fill in the student information form with the following details:
-   - Weekly study time (hours)
-   - Number of absences
-   - Gender
-   - Ethnicity
-   - Parental education level
-   - Tutoring participation (yes/no)
-   - Parental support (yes/no)
-   - Extracurricular activities (yes/no)
-3. Click "Predict" to generate performance predictions
-4. View the results showing predicted GPA and grade classification
+### 🧾 Input Fields
 
-### Understanding Results
+- Study time per week
+- Number of absences
+- Gender, Ethnicity, Parental Education
+- Tutoring / Parental Support / Extracurricular participation
+- Involvement in Sports, Music, Volunteering
 
-The system provides:
+### 📈 Output
 
-- **GPA Prediction**: Numerical value on a 0.0-4.0 scale
-- **GPA Category**: Classification as VeryLow, Low, Medium, High, or VeryHigh
-- **Grade Class**: Letter grade prediction (A, B, C, D, or F)
-- **Recommendations**: Personalized suggestions to improve academic performance
-- **Potential Impact**: Estimated GPA improvement for each recommendation
+- **Predicted GPA** (0.0 - 4.0 scale)
+- **GPA Category**: VeryLow to VeryHigh
+- **GradeClass**: Letter grade (A to F)
+- **Recommendations** with estimated GPA impact
 
-### API Endpoints
+---
 
-For programmatic access, the system provides the following REST API endpoints:
+## 📡 API Endpoints
 
-#### 1. Prediction Endpoint
+### 1. `/predict`
 
-```
-POST /predict
-```
-
-**Input Format:**
+**POST** request:
 
 ```json
 {
@@ -130,7 +125,7 @@ POST /predict
 }
 ```
 
-**Output Format:**
+**Response:**
 
 ```json
 {
@@ -142,73 +137,69 @@ POST /predict
 }
 ```
 
-#### 2. Recommendation Endpoint
+### 2. `/recommend`
 
-```
-POST /recommend
-```
-
-Uses the same input format as `/predict` but returns improvement recommendations:
-
-**Output Format:**
+Provides improvement suggestions:
 
 ```json
 {
-  "gpa": 3.35,
-  "gpa_category": "High",
   "recommendations": [
     {
       "factor": "Study Time",
       "issue": "Weekly study time below optimal level",
       "recommendation": "Increase study time to 15 hours per week",
-      "impact": 0.45,
-      "priority": "Medium"
+      "impact": 0.45
     }
   ],
-  "total_potential_improvement": 0.45,
   "potential_gpa": 3.8
 }
 ```
 
-## Advanced Usage
+---
 
-### Model Interpretation
+## 📊 Performance Metrics
 
-- **Study Time Impact**: The most significant predictor of GPA, with optimal returns around 15 hours/week
-- **Attendance**: Keeping absences below 5 days per term shows significant positive impact
-- **Support Systems**: Parental support and tutoring provide additional positive effects
+| Metric                | Value  |
+| --------------------- | ------ |
+| MAE (GPA)             | 0.2668 |
+| RMSE (GPA)            | 0.3323 |
+| Accuracy (GradeClass) | 91.65% |
+| Precision             | 91.79% |
+| ROC AUC               | 0.9009 |
+| Calibration Error     | 0.2890 |
 
-### Performance Metrics
+---
 
-- **MAE (GPA)**: 0.2668
-- **RMSE (GPA)**: 0.3323
-- **Accuracy (GradeClass)**: 91.65%
-- **Precision (GradeClass)**: 91.79%
-- **ROC AUC**: 0.9009
-- **Calibration Error**: 0.2890
+## 📖 Model Insights
 
-## Dependencies
+- **Study Time**: Most impactful variable (optimal ≈ 15 hours/week)
+- **Absences**: Strong inverse correlation (ρ = -0.92)
+- **Tutoring & Parental Support**: Moderate positive influence
+- **Extracurricular Activities**: Slight positive impact
 
-The project uses the following Python libraries:
+📌 **Note**: Bayesian Networks handle missing data via marginal inference, making the model robust in real-world scenarios.
 
-- `pandas` and `numpy`: Data manipulation
-- `scikit-learn`: Machine learning components
-- `networkx`: Bayesian Network visualization
-- `matplotlib` and `seaborn`: Data visualization
-- `flask`: Web API backend
-- `joblib`: Model serialization
+---
 
-Install all dependencies using the `requirements.txt` file:
+## 📚 Dependencies
 
-```bash
-pip install -r requirements.txt
-```
+- `pandas`, `numpy` — Data preprocessing
+- `scikit-learn` — Evaluation metrics
+- `pgmpy`, `networkx` — Bayesian Network modeling
+- `matplotlib`, `seaborn` — Data visualization
+- `flask` — Web API
+- `joblib` — Model persistence
 
-## License
+---
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+## 📜 License
 
-## Acknowledgments
+Distributed under the MIT License. See `LICENSE` for more details.
 
-- Dataset: Cleaned_Student_performance_data.csv
-- Bayesian Network implementation inspired by academic research on probabilistic graphical models.
+---
+
+## 🙏 Acknowledgments
+
+- **Dataset**: `Cleaned_Student_performance_data.csv`
+- **Bayesian Network Principles**: Inspired by academic work in probabilistic graphical modeling
+- **Visualization Support**: Correlation heatmaps and DAGs from project notebooks
