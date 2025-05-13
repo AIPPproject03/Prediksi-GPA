@@ -253,17 +253,17 @@
       const loading = document.getElementById('loading');
       const restartLabel = document.getElementById('restartLabel');
 
-      // Node connections sesuai dengan gambar
+      // Updated connections based on the provided parents dictionary
       const connections = [
         { from: 'parentalEducation', to: 'tutoring' },
-        { from: 'tutoring', to: 'gpa' },
+        { from: 'parentalSupport', to: 'gpa' },
         { from: 'absences', to: 'gpa' },
         { from: 'studyTimeWeekly', to: 'gpa' },
-        { from: 'parentalSupport', to: 'gpa' },
+        { from: 'tutoring', to: 'gpa' },
         { from: 'extracurricular', to: 'gpa' },
-        { from: 'sports', to: 'extracurricular' },
-        { from: 'volunteering', to: 'extracurricular' },
-        { from: 'music', to: 'extracurricular' },
+        { from: 'sports', to: 'gpa' },
+        { from: 'music', to: 'gpa' },
+        { from: 'volunteering', to: 'gpa' },
         { from: 'gpa', to: 'gradeClass' }
       ];
 
@@ -274,11 +274,11 @@
         'gpa': 'Nilai rata-rata akademik siswa',
         'absences': 'Jumlah ketidakhadiran siswa di kelas',
         'parentalSupport': 'Dukungan dari orang tua dalam proses belajar',
-        'extracurricular': 'Partisipasi dalam kegiatan ekstrakurikuler',
+        'extracurricular': 'Kegiatan ekstrakurikuler mempengaruhi nilai akademik',
         'gradeClass': 'Kelas performa siswa (tinggi/sedang/rendah)',
-        'sports': 'Partisipasi dalam kegiatan olahraga',
-        'music': 'Partisipasi dalam kegiatan musik',
-        'volunteering': 'Partisipasi dalam kegiatan kerelawanan',
+        'sports': 'Partisipasi dalam kegiatan olahraga mempengaruhi nilai akademik',
+        'music': 'Partisipasi dalam kegiatan musik mempengaruhi nilai akademik',
+        'volunteering': 'Partisipasi dalam kegiatan kerelawanan mempengaruhi nilai akademik',
         'studyTimeWeekly': 'Waktu belajar siswa per minggu'
       };
 
