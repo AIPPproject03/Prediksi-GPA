@@ -3897,3 +3897,389 @@ ValueError: y contains previously unseen labels: 'VeryHigh'
 2025-05-07 09:40:35,879 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
 2025-05-07 09:40:35,889 - root - INFO - Using nearest neighbor key: (np.float64(18.3), np.int64(4), np.int64(2)) with distance: 1.0900000000000005
 2025-05-07 09:40:35,894 - werkzeug - INFO - 127.0.0.1 - - [07/May/2025 09:40:35] "POST /recommend HTTP/1.1" 200 -
+2025-05-12 14:32:04,237 - root - INFO - Loaded training data sample: (1000, 15)
+2025-05-12 14:32:04,290 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.18.175:5000
+2025-05-12 14:32:04,291 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-12 14:32:04,292 - werkzeug - INFO -  * Restarting with stat
+2025-05-12 14:32:09,998 - root - INFO - Loaded training data sample: (1000, 15)
+2025-05-12 14:32:10,014 - werkzeug - WARNING -  * Debugger is active!
+2025-05-12 14:32:10,019 - werkzeug - INFO -  * Debugger PIN: 105-280-137
+2025-05-12 14:37:33,421 - werkzeug - INFO - 127.0.0.1 - - [12/May/2025 14:37:33] "OPTIONS /predict HTTP/1.1" 200 -
+2025-05-12 14:37:33,425 - root - INFO - Received prediction request: {'StudyTimeWeekly': 3, 'Absences': 1, 'Gender': 0, 'Ethnicity': 1, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 1}
+2025-05-12 14:37:33,426 - root - INFO - Processed evidence: {'StudyTimeWeekly': 3.0, 'Study_bin': 3, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 1, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 1}
+2025-05-12 14:37:33,426 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 3.0, 'Study_bin': 3, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 1, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 1}
+2025-05-12 14:37:33,428 - root - INFO - Looking up key in CPT: (3.0, 1.0, 3)
+2025-05-12 14:37:33,428 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-12 14:37:33,431 - root - INFO - Using nearest neighbor key: (np.float64(2.9), np.int64(2), np.int64(3)) with distance: 1.01
+2025-05-12 14:37:33,431 - root - INFO - Predicted GPA: 3.14
+2025-05-12 14:37:33,431 - root - INFO - Predicting GradeClass with GPA: 3.14
+2025-05-12 14:37:33,433 - root - INFO - Using closest GPA key: (np.float64(3.14),) with distance: 0.0
+2025-05-12 14:37:33,433 - root - INFO - Predicted GradeClass: 1
+2025-05-12 14:37:33,434 - root - INFO - Prediction result: {'gpa': 3.14, 'gpa_bin': 3, 'gpa_bin_label': 'High', 'gradeClass': 1, 'gradeClass_label': '1'}
+2025-05-12 14:37:33,435 - werkzeug - INFO - 127.0.0.1 - - [12/May/2025 14:37:33] "POST /predict HTTP/1.1" 200 -
+2025-05-12 14:37:40,708 - werkzeug - INFO - 127.0.0.1 - - [12/May/2025 14:37:40] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-12 14:37:40,713 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 3, 'Absences': 1, 'Gender': 0, 'Ethnicity': 1, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 1}
+2025-05-12 14:37:40,713 - root - INFO - Processed evidence: {'StudyTimeWeekly': 3.0, 'Study_bin': 3, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 1, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 1}
+2025-05-12 14:37:40,715 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 3.0, 'Study_bin': 3, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 1, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 1}
+2025-05-12 14:37:40,715 - root - INFO - Looking up key in CPT: (3.0, 1.0, 3)
+2025-05-12 14:37:40,715 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-12 14:37:40,718 - root - INFO - Using nearest neighbor key: (np.float64(2.9), np.int64(2), np.int64(3)) with distance: 1.01
+2025-05-12 14:37:40,718 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 3.0, 'Study_bin': 3, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 1, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 1, 'GPA': 3.14}
+2025-05-12 14:37:40,718 - root - INFO - Looking up key in CPT: (3.0, 1.0, 3)
+2025-05-12 14:37:40,719 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-12 14:37:40,723 - root - INFO - Using nearest neighbor key: (np.float64(2.9), np.int64(2), np.int64(3)) with distance: 1.01
+2025-05-12 14:37:40,724 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 10, 'Study_bin': 3, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 1, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 1, 'GPA': 3.14}
+2025-05-12 14:37:40,724 - root - INFO - Looking up key in CPT: (10, 1.0, 3)
+2025-05-12 14:37:40,724 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-12 14:37:40,726 - root - INFO - Using nearest neighbor key: (np.float64(10.1), np.int64(1), np.int64(3)) with distance: 0.009999999999999929
+2025-05-12 14:37:40,728 - werkzeug - INFO - 127.0.0.1 - - [12/May/2025 14:37:40] "POST /recommend HTTP/1.1" 200 -
+2025-05-12 14:37:53,018 - werkzeug - INFO - 127.0.0.1 - - [12/May/2025 14:37:53] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-12 14:37:53,023 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 10, 'Absences': 1, 'Gender': 0, 'Ethnicity': 1, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 1}
+2025-05-12 14:37:53,024 - root - INFO - Processed evidence: {'StudyTimeWeekly': 10.0, 'Study_bin': 2, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 1, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 1}
+2025-05-12 14:37:53,024 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 10.0, 'Study_bin': 2, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 1, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 1}
+2025-05-12 14:37:53,024 - root - INFO - Looking up key in CPT: (10.0, 1.0, 3)
+2025-05-12 14:37:53,025 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-12 14:37:53,029 - root - INFO - Using nearest neighbor key: (np.float64(10.1), np.int64(1), np.int64(3)) with distance: 0.009999999999999929
+2025-05-12 14:37:53,030 - werkzeug - INFO - 127.0.0.1 - - [12/May/2025 14:37:53] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:32:07,700 - root - INFO - Loaded training data sample: (1000, 15)
+2025-05-13 16:32:07,743 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.18.175:5000
+2025-05-13 16:32:07,744 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-13 16:32:07,745 - werkzeug - INFO -  * Restarting with stat
+2025-05-13 16:32:15,342 - root - INFO - Loaded training data sample: (1000, 15)
+2025-05-13 16:32:15,388 - werkzeug - WARNING -  * Debugger is active!
+2025-05-13 16:32:15,398 - werkzeug - INFO -  * Debugger PIN: 105-280-137
+2025-05-13 16:32:37,925 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:32:37] "OPTIONS /predict HTTP/1.1" 200 -
+2025-05-13 16:32:37,930 - root - INFO - Received prediction request: {'StudyTimeWeekly': 2, 'Absences': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 1, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:32:37,930 - root - INFO - Processed evidence: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 1, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:32:37,930 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 1, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:32:37,931 - root - INFO - Looking up key in CPT: (2.0, 3.0, 1)
+2025-05-13 16:32:37,931 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:32:37,935 - root - INFO - Using nearest neighbor key: (np.float64(1.8), np.int64(3), np.int64(1)) with distance: 0.03999999999999998
+2025-05-13 16:32:37,936 - root - INFO - Predicted GPA: 2.73
+2025-05-13 16:32:37,936 - root - INFO - Predicting GradeClass with GPA: 2.73
+2025-05-13 16:32:37,936 - root - INFO - Using closest GPA key: (np.float64(2.73),) with distance: 0.0
+2025-05-13 16:32:37,937 - root - INFO - Predicted GradeClass: 2
+2025-05-13 16:32:37,938 - root - INFO - Prediction result: {'gpa': 2.73, 'gpa_bin': 2, 'gpa_bin_label': 'Medium', 'gradeClass': 2, 'gradeClass_label': '2'}
+2025-05-13 16:32:37,939 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:32:37] "POST /predict HTTP/1.1" 200 -
+2025-05-13 16:32:41,737 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:32:41] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:32:41,741 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 2, 'Absences': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 1, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:32:41,741 - root - INFO - Processed evidence: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 1, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:32:41,741 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 1, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:32:41,742 - root - INFO - Looking up key in CPT: (2.0, 3.0, 1)
+2025-05-13 16:32:41,742 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:32:41,745 - root - INFO - Using nearest neighbor key: (np.float64(1.8), np.int64(3), np.int64(1)) with distance: 0.03999999999999998
+2025-05-13 16:32:41,745 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 1, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 2.73}
+2025-05-13 16:32:41,746 - root - INFO - Looking up key in CPT: (2.0, 3.0, 1)
+2025-05-13 16:32:41,746 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:32:41,748 - root - INFO - Using nearest neighbor key: (np.float64(1.8), np.int64(3), np.int64(1)) with distance: 0.03999999999999998
+2025-05-13 16:32:41,749 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 10, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 1, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 2.73}
+2025-05-13 16:32:41,749 - root - INFO - Looking up key in CPT: (10, 3.0, 1)
+2025-05-13 16:32:41,749 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:32:41,754 - root - INFO - Using nearest neighbor key: (np.float64(10.5), np.int64(4), np.int64(1)) with distance: 1.25
+2025-05-13 16:32:41,755 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:32:41] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:32:53,546 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:32:53] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:32:53,550 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 2, 'Absences': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 1, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:32:53,551 - root - INFO - Processed evidence: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 1, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:32:53,551 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 1, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:32:53,551 - root - INFO - Looking up key in CPT: (2.0, 3.0, 1)
+2025-05-13 16:32:53,552 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:32:53,554 - root - INFO - Using nearest neighbor key: (np.float64(1.8), np.int64(3), np.int64(1)) with distance: 0.03999999999999998
+2025-05-13 16:32:53,555 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 1, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0, 'GPA': 2.73}
+2025-05-13 16:32:53,555 - root - INFO - Looking up key in CPT: (2.0, 3.0, 1)
+2025-05-13 16:32:53,556 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:32:53,559 - root - INFO - Using nearest neighbor key: (np.float64(1.8), np.int64(3), np.int64(1)) with distance: 0.03999999999999998
+2025-05-13 16:32:53,560 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 10, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 1, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0, 'GPA': 2.73}
+2025-05-13 16:32:53,560 - root - INFO - Looking up key in CPT: (10, 3.0, 1)
+2025-05-13 16:32:53,560 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:32:53,563 - root - INFO - Using nearest neighbor key: (np.float64(10.5), np.int64(4), np.int64(1)) with distance: 1.25
+2025-05-13 16:32:53,564 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:32:53] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:00,489 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:00] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:00,492 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 2, 'Absences': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:33:00,493 - root - INFO - Processed evidence: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:33:00,494 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:33:00,494 - root - INFO - Looking up key in CPT: (2.0, 3.0, 3)
+2025-05-13 16:33:00,494 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:00,496 - root - INFO - Using nearest neighbor key: (np.float64(2.1), np.int64(3), np.int64(3)) with distance: 0.010000000000000018
+2025-05-13 16:33:00,497 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0, 'GPA': 2.36}
+2025-05-13 16:33:00,497 - root - INFO - Looking up key in CPT: (2.0, 3.0, 3)
+2025-05-13 16:33:00,498 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:00,500 - root - INFO - Using nearest neighbor key: (np.float64(2.1), np.int64(3), np.int64(3)) with distance: 0.010000000000000018
+2025-05-13 16:33:00,501 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 10, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0, 'GPA': 2.36}
+2025-05-13 16:33:00,501 - root - INFO - Looking up key in CPT: (10, 3.0, 3)
+2025-05-13 16:33:00,501 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:00,504 - root - INFO - Using nearest neighbor key: (np.float64(10.6), np.int64(3), np.int64(3)) with distance: 0.3599999999999996
+2025-05-13 16:33:00,506 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:00] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:06,843 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:06] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:06,844 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 2, 'Absences': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:33:06,846 - root - INFO - Processed evidence: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:33:06,846 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:33:06,846 - root - INFO - Looking up key in CPT: (2.0, 3.0, 2)
+2025-05-13 16:33:06,846 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:06,849 - root - INFO - Using nearest neighbor key: (np.float64(1.9), np.int64(3), np.int64(2)) with distance: 0.010000000000000018
+2025-05-13 16:33:06,849 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0, 'GPA': 2.84}
+2025-05-13 16:33:06,849 - root - INFO - Looking up key in CPT: (2.0, 3.0, 2)
+2025-05-13 16:33:06,849 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:06,853 - root - INFO - Using nearest neighbor key: (np.float64(1.9), np.int64(3), np.int64(2)) with distance: 0.010000000000000018
+2025-05-13 16:33:06,853 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 10, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0, 'GPA': 2.84}
+2025-05-13 16:33:06,854 - root - INFO - Looking up key in CPT: (10, 3.0, 2)
+2025-05-13 16:33:06,854 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:06,856 - root - INFO - Using nearest neighbor key: (np.float64(10.6), np.int64(3), np.int64(2)) with distance: 0.3599999999999996
+2025-05-13 16:33:06,857 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:06] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:14,673 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:14] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:14,677 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 2, 'Absences': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:33:14,678 - root - INFO - Processed evidence: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:33:14,678 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 0, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:33:14,679 - root - INFO - Looking up key in CPT: (2.0, 3.0, 2)
+2025-05-13 16:33:14,679 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:14,682 - root - INFO - Using nearest neighbor key: (np.float64(1.9), np.int64(3), np.int64(2)) with distance: 0.010000000000000018
+2025-05-13 16:33:14,682 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 0, 'Music': 0, 'Volunteering': 0, 'GPA': 2.84}
+2025-05-13 16:33:14,683 - root - INFO - Looking up key in CPT: (2.0, 3.0, 2)
+2025-05-13 16:33:14,683 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:14,687 - root - INFO - Using nearest neighbor key: (np.float64(1.9), np.int64(3), np.int64(2)) with distance: 0.010000000000000018
+2025-05-13 16:33:14,688 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 10, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 0, 'Music': 0, 'Volunteering': 0, 'GPA': 2.84}
+2025-05-13 16:33:14,688 - root - INFO - Looking up key in CPT: (10, 3.0, 2)
+2025-05-13 16:33:14,689 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:14,693 - root - INFO - Using nearest neighbor key: (np.float64(10.6), np.int64(3), np.int64(2)) with distance: 0.3599999999999996
+2025-05-13 16:33:14,693 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 0, 'Music': 0, 'Volunteering': 0, 'GPA': 2.84}
+2025-05-13 16:33:14,694 - root - INFO - Looking up key in CPT: (2.0, 3.0, 2)
+2025-05-13 16:33:14,694 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:14,697 - root - INFO - Using nearest neighbor key: (np.float64(1.9), np.int64(3), np.int64(2)) with distance: 0.010000000000000018
+2025-05-13 16:33:14,697 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 0, 'Music': 0, 'Volunteering': 0, 'GPA': 2.84}
+2025-05-13 16:33:14,698 - root - INFO - Looking up key in CPT: (2.0, 3.0, 2)
+2025-05-13 16:33:14,699 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:14,704 - root - INFO - Using nearest neighbor key: (np.float64(1.9), np.int64(3), np.int64(2)) with distance: 0.010000000000000018
+2025-05-13 16:33:14,705 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:14] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:20,858 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:20] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:20,862 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 2, 'Absences': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:33:20,862 - root - INFO - Processed evidence: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:33:20,862 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:33:20,863 - root - INFO - Looking up key in CPT: (2.0, 3.0, 2)
+2025-05-13 16:33:20,863 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:20,865 - root - INFO - Using nearest neighbor key: (np.float64(1.9), np.int64(3), np.int64(2)) with distance: 0.010000000000000018
+2025-05-13 16:33:20,866 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 2.84}
+2025-05-13 16:33:20,866 - root - INFO - Looking up key in CPT: (2.0, 3.0, 2)
+2025-05-13 16:33:20,866 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:20,871 - root - INFO - Using nearest neighbor key: (np.float64(1.9), np.int64(3), np.int64(2)) with distance: 0.010000000000000018
+2025-05-13 16:33:20,872 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 10, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 2.84}
+2025-05-13 16:33:20,872 - root - INFO - Looking up key in CPT: (10, 3.0, 2)
+2025-05-13 16:33:20,873 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:20,875 - root - INFO - Using nearest neighbor key: (np.float64(10.6), np.int64(3), np.int64(2)) with distance: 0.3599999999999996
+2025-05-13 16:33:20,875 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 2.84}
+2025-05-13 16:33:20,876 - root - INFO - Looking up key in CPT: (2.0, 3.0, 2)
+2025-05-13 16:33:20,876 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:20,880 - root - INFO - Using nearest neighbor key: (np.float64(1.9), np.int64(3), np.int64(2)) with distance: 0.010000000000000018
+2025-05-13 16:33:20,881 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 2.84}
+2025-05-13 16:33:20,881 - root - INFO - Looking up key in CPT: (2.0, 3.0, 2)
+2025-05-13 16:33:20,881 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:20,885 - root - INFO - Using nearest neighbor key: (np.float64(1.9), np.int64(3), np.int64(2)) with distance: 0.010000000000000018
+2025-05-13 16:33:20,886 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:20] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:26,850 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:26] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:26,852 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 2, 'Absences': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:33:26,853 - root - INFO - Processed evidence: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:33:26,853 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:33:26,853 - root - INFO - Looking up key in CPT: (2.0, 3.0, 2)
+2025-05-13 16:33:26,853 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:26,855 - root - INFO - Using nearest neighbor key: (np.float64(1.9), np.int64(3), np.int64(2)) with distance: 0.010000000000000018
+2025-05-13 16:33:26,855 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 2.0, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 2.84}
+2025-05-13 16:33:26,856 - root - INFO - Looking up key in CPT: (2.0, 3.0, 2)
+2025-05-13 16:33:26,856 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:26,859 - root - INFO - Using nearest neighbor key: (np.float64(1.9), np.int64(3), np.int64(2)) with distance: 0.010000000000000018
+2025-05-13 16:33:26,859 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 10, 'Study_bin': 3, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 2.84}
+2025-05-13 16:33:26,859 - root - INFO - Looking up key in CPT: (10, 3.0, 2)
+2025-05-13 16:33:26,859 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:26,861 - root - INFO - Using nearest neighbor key: (np.float64(10.6), np.int64(3), np.int64(2)) with distance: 0.3599999999999996
+2025-05-13 16:33:26,863 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:26] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:46,539 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:46] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:46,542 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:33:46,543 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:33:46,543 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:33:46,544 - root - INFO - Looking up key in CPT: (18.0, 3.0, 2)
+2025-05-13 16:33:46,544 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:46,546 - root - INFO - Using nearest neighbor key: (np.float64(18.3), np.int64(4), np.int64(2)) with distance: 1.0900000000000005
+2025-05-13 16:33:46,547 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:46] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:55,482 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:55] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:33:55,485 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 1, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:33:55,486 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:33:55,486 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:33:55,487 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 16:33:55,487 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:33:55,489 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 16:33:55,490 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:33:55] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:34:03,098 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:34:03] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:34:03,102 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 2, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:03,103 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 2.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:03,103 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 2.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:03,103 - root - INFO - Looking up key in CPT: (18.0, 2.0, 2)
+2025-05-13 16:34:03,104 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:34:03,110 - root - INFO - Using nearest neighbor key: (np.float64(19.0), np.int64(2), np.int64(2)) with distance: 1.0
+2025-05-13 16:34:03,111 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:34:03] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:34:08,529 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:34:08] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:34:08,532 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:08,533 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:08,533 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:08,533 - root - INFO - Looking up key in CPT: (18.0, 3.0, 2)
+2025-05-13 16:34:08,533 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:34:08,536 - root - INFO - Using nearest neighbor key: (np.float64(18.3), np.int64(4), np.int64(2)) with distance: 1.0900000000000005
+2025-05-13 16:34:08,536 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:34:08] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:34:13,369 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 4, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:13,369 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 4.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:13,369 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 4.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:13,370 - root - INFO - Looking up key in CPT: (18.0, 4.0, 2)
+2025-05-13 16:34:13,370 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:34:13,373 - root - INFO - Using nearest neighbor key: (np.float64(18.3), np.int64(4), np.int64(2)) with distance: 0.09000000000000043
+2025-05-13 16:34:13,374 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:34:13] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:34:17,850 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:34:17] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:34:17,854 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 5, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:17,854 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 5.0, 'Absences_bin': 0, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:17,854 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 5.0, 'Absences_bin': 0, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:17,854 - root - INFO - Looking up key in CPT: (18.0, 5.0, 2)
+2025-05-13 16:34:17,855 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:34:17,858 - root - INFO - Using nearest neighbor key: (np.float64(17.3), np.int64(5), np.int64(2)) with distance: 0.489999999999999
+2025-05-13 16:34:17,866 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:34:17] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:34:28,089 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:34:28] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:34:28,093 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 5, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:28,094 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 5.0, 'Absences_bin': 0, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:28,095 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 5.0, 'Absences_bin': 0, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:34:28,095 - root - INFO - Looking up key in CPT: (18.0, 5.0, 2)
+2025-05-13 16:34:28,096 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:34:28,098 - root - INFO - Using nearest neighbor key: (np.float64(17.3), np.int64(5), np.int64(2)) with distance: 0.489999999999999
+2025-05-13 16:34:28,100 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:34:28] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:54:24,616 - root - INFO - Loaded training data sample: (1000, 15)
+2025-05-13 16:54:24,648 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.18.175:5000
+2025-05-13 16:54:24,648 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-13 16:54:24,649 - werkzeug - INFO -  * Restarting with stat
+2025-05-13 16:54:31,039 - root - INFO - Loaded training data sample: (1000, 15)
+2025-05-13 16:54:31,064 - werkzeug - WARNING -  * Debugger is active!
+2025-05-13 16:54:31,070 - werkzeug - INFO -  * Debugger PIN: 105-280-137
+2025-05-13 16:55:28,051 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:55:28] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:55:28,056 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 12, 'Absences': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:55:28,057 - root - INFO - Processed evidence: {'StudyTimeWeekly': 12.0, 'Study_bin': 2, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:55:28,058 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 12.0, 'Study_bin': 2, 'Absences': 3.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 2, 'Tutoring': 1, 'ParentalSupport': 3, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:55:28,059 - root - INFO - Looking up key in CPT: (12.0, 3.0, 3)
+2025-05-13 16:55:28,059 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:55:28,062 - root - INFO - Using nearest neighbor key: (np.float64(12.8), np.int64(4), np.int64(3)) with distance: 1.640000000000001
+2025-05-13 16:55:28,063 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:55:28] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:59:03,810 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:59:03] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:59:03,814 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 1, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:03,814 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:03,815 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:03,815 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 16:59:03,816 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:59:03,818 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 16:59:03,819 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:59:03] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:59:16,401 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:59:16] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:59:16,403 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 1, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:16,405 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:16,405 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:16,405 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 16:59:16,405 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:59:16,407 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 16:59:16,408 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:59:16] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:59:17,322 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:59:17] "OPTIONS /predict HTTP/1.1" 200 -
+2025-05-13 16:59:17,325 - root - INFO - Received prediction request: {'StudyTimeWeekly': 18, 'Absences': 1, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:17,326 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:17,327 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:17,328 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 16:59:17,328 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:59:17,330 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 16:59:17,331 - root - INFO - Predicted GPA: 3.02
+2025-05-13 16:59:17,331 - root - INFO - Predicting GradeClass with GPA: 3.02
+2025-05-13 16:59:17,331 - root - INFO - Using closest GPA key: (np.float64(3.02),) with distance: 0.0
+2025-05-13 16:59:17,332 - root - INFO - Predicted GradeClass: 1
+2025-05-13 16:59:17,332 - root - INFO - Prediction result: {'gpa': 3.02, 'gpa_bin': 3, 'gpa_bin_label': 'High', 'gradeClass': 1, 'gradeClass_label': '1'}
+2025-05-13 16:59:17,333 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:59:17] "POST /predict HTTP/1.1" 200 -
+2025-05-13 16:59:20,354 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 1, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:20,355 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:20,356 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 2, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:20,356 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 16:59:20,356 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:59:20,359 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 16:59:20,360 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:59:20] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:59:51,268 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:59:51] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:59:51,273 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 1, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:51,275 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:51,275 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 0, 'Volunteering': 0}
+2025-05-13 16:59:51,276 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 16:59:51,276 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:59:51,281 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 16:59:51,283 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:59:51] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 16:59:57,425 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:59:57] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 16:59:57,428 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 1, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:59:57,429 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:59:57,429 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 16:59:57,430 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 16:59:57,430 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 16:59:57,432 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 16:59:57,434 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 16:59:57] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 17:00:00,889 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 1, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 17:00:00,889 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 17:00:00,889 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 17:00:00,890 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 17:00:00,890 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 17:00:00,892 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 17:00:00,893 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 3.02}
+2025-05-13 17:00:00,893 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 17:00:00,893 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 17:00:00,896 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 17:00:00,896 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 3.02}
+2025-05-13 17:00:00,896 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 17:00:00,896 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 17:00:00,900 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 17:00:00,901 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 17:00:00] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 17:00:05,818 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 17:00:05] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 17:00:05,820 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 1, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 0, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 17:00:05,822 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 0, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 17:00:05,823 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 0, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 17:00:05,823 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 17:00:05,824 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 17:00:05,826 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 17:00:05,827 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 0, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 3.02}
+2025-05-13 17:00:05,827 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 17:00:05,827 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 17:00:05,830 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 17:00:05,831 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 3.02}
+2025-05-13 17:00:05,831 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 17:00:05,831 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 17:00:05,833 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 17:00:05,833 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 0, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 3.02}
+2025-05-13 17:00:05,834 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 17:00:05,834 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 17:00:05,837 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 17:00:05,837 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 0, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 3.02}
+2025-05-13 17:00:05,838 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 17:00:05,838 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 17:00:05,840 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 17:00:05,841 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 17:00:05] "POST /recommend HTTP/1.1" 200 -
+2025-05-13 17:00:17,832 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 17:00:17] "OPTIONS /recommend HTTP/1.1" 200 -
+2025-05-13 17:00:17,837 - root - INFO - Received recommendation request: {'StudyTimeWeekly': 18, 'Absences': 1, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 0, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 17:00:17,838 - root - INFO - Processed evidence: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 0, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 17:00:17,838 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 0, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1}
+2025-05-13 17:00:17,838 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 17:00:17,839 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 17:00:17,842 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 17:00:17,843 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 0, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 3.02}
+2025-05-13 17:00:17,843 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 17:00:17,843 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 17:00:17,846 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 17:00:17,846 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 1, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 3.02}
+2025-05-13 17:00:17,847 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 17:00:17,848 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 17:00:17,851 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 17:00:17,852 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 0, 'ParentalSupport': 2, 'Extracurricular': 0, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 3.02}
+2025-05-13 17:00:17,852 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 17:00:17,852 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 17:00:17,855 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 17:00:17,855 - root - INFO - Evidence for GPA prediction: {'StudyTimeWeekly': 18.0, 'Study_bin': 0, 'Absences': 1.0, 'Absences_bin': 3, 'Gender': 0, 'Ethnicity': 0, 'ParentalEducation': 1, 'Tutoring': 0, 'ParentalSupport': 2, 'Extracurricular': 1, 'Sports': 1, 'Music': 1, 'Volunteering': 1, 'GPA': 3.02}
+2025-05-13 17:00:17,856 - root - INFO - Looking up key in CPT: (18.0, 1.0, 2)
+2025-05-13 17:00:17,856 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
+2025-05-13 17:00:17,858 - root - INFO - Using nearest neighbor key: (np.float64(17.9), np.int64(1), np.int64(2)) with distance: 0.010000000000000285
+2025-05-13 17:00:17,859 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 17:00:17] "POST /recommend HTTP/1.1" 200 -
