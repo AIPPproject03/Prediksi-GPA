@@ -4330,3 +4330,13 @@ ValueError: y contains previously unseen labels: 'VeryHigh'
 2025-05-13 18:03:34,494 - root - INFO - No direct match in CPT, trying nearest neighbor lookup...
 2025-05-13 18:03:34,496 - root - INFO - Using nearest neighbor key: (np.float64(10.6), np.int64(3), np.int64(2)) with distance: 0.3599999999999996
 2025-05-13 18:03:34,497 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:03:34] "POST /recommend HTTP/1.1" 200 -
+2025-05-19 10:30:05,268 - root - INFO - Loaded training data sample: (1000, 15)
+2025-05-19 10:30:05,317 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.51.206.172:5000
+2025-05-19 10:30:05,317 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-19 10:30:05,321 - werkzeug - INFO -  * Restarting with stat
+2025-05-19 10:30:10,343 - root - INFO - Loaded training data sample: (1000, 15)
+2025-05-19 10:30:10,364 - werkzeug - WARNING -  * Debugger is active!
+2025-05-19 10:30:10,367 - werkzeug - INFO -  * Debugger PIN: 105-280-137
